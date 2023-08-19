@@ -1,0 +1,30 @@
+<%- include("header") -%>
+    <div class="box" id="heading">
+        <% if(listTitle==="Thursday") { %>
+            <h1 style="color: purple"><%= listTitle%> </h1>
+       <% } else { %>
+    
+            <h1 style="color: blue"><%= listTitle%></h1>
+        <% } %>
+
+    </div>
+
+    <div class="box">
+            <% for(var i=0;i<newListItem.length;i++) { %>
+                <form action="/delete" method="post"><div class="item">
+                    <input type="checkbox" value="<%= newListItem[i]._id %>"  name="delname" onChange="this.form.submit()">
+                <p> <%=newListItem[i].name%></p>
+                <input type="hidden" name="listTitle" value="<%= listTitle %>">
+                </div>
+                </form>
+       <%  } %>
+       <form class="" action="/" method="post">
+        <input type="text" name="newItem" placeholder="Enter New Item" autocomplete="off">
+        <button type="submit" name="list" value=<%=listTitle %>>+</button>
+       
+    </form>
+    </div>
+      
+
+       
+<%- include("footer") -%>    
