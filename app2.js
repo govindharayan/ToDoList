@@ -3,8 +3,10 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const _ = require("lodash");
+const mongodbUrl = process.env.MONGODB_URL || 'mongodb+srv://text:Gaurav1102@cluster0.rdvefwg.mongodb.net/toDoListDB?retryWrites=true&w=majority';
+mongoose.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
-mongoose.connect('mongodb://127.0.0.1:27017/toDoListDB');
+//mongoose.connect('mongodb://127.0.0.1:27017/toDoListDB');
 
 const itemsSchema = new mongoose.Schema({
     name: String
