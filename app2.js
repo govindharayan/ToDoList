@@ -4,9 +4,13 @@ const app = express();
 const mongoose = require("mongoose");
 const _ = require("lodash");
 const mongodbUrl = process.env.MONGODB_URL || 'mongodb+srv://text:Gaurav1102@cluster0.rdvefwg.mongodb.net/toDoListDB?retryWrites=true&w=majority';
-mongoose.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology: true }).then(()=>{
+    console.log("connection made successfully");
+}).catch(error=> {
+    console.log(error);
+})
 
-//mongoose.connect('mongodb://127.0.0.1:27017/toDoListDB');
+//mongoose.connect('mongodb+srv://text:Gaurav1102@cluster0.rdvefwg.mongodb.net/?retryWrites=true&w=majority/toDoListDB');
 
 const itemsSchema = new mongoose.Schema({
     name: String
@@ -89,7 +93,11 @@ app.get("/:customListName",function(req,res){
                     name: customListName,
                     items: defaultItems
                 });
-                list1.save();
+                list1.save().then(()=>{
+                    console.log("successfully saved data into database")
+                }).catch(error=>{
+                    console.log(error);
+                })
                 res.redirect("/" + customListName);
     
             }
@@ -121,12 +129,20 @@ app.post("/",function (req,res){
     })
     
     if(listName == day ) {
-        newIt.save();
+        newIt.save().then(()=>{
+            console.log("successfully saved data into database");
+        }).catch(error=>{
+            console.log(error);
+        })
         res.redirect("/" + listName);  
     } else {
         List.findOne({name: listName}).then(foundList=>{
             foundList.items.push(newIt);
-            foundList.save();
+            foundList.save().then(()=>{
+                console.log("successfully saved data into database");
+            }).catch(error=>{
+                console.log(error);
+            })
             res.redirect("/" + listName);
         }).catch(error=>{
             console.log(error);
